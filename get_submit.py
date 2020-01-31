@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+#version 11c17755832816ac53fb599a6286648d5cfe5c6b
+
 import os
 import sys
 from enum import Enum
@@ -15,6 +17,7 @@ JOB_NAME      = "default_name"
 CPUS_PER_TASK = "2"
 NTASKS        = "1"
 NODES         = "1"
+MEM           = "1000"
 COMMAND       = "sleep 10"
 
 fout = open("submit.job","w+")
@@ -44,6 +47,7 @@ def main(MODE):
     print_cmd("#")
     print_option("--job-name"     , JOB_NAME)
     print_option("--cpus-per-task", CPUS_PER_TASK)
+    print_option("--mem", MEM)
     print_cmd("#***************************")
     print_cmd("#DO NOT MODIFY THESE OPTIONS")
     print_option("--nodes"        , NODES)
