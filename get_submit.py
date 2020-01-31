@@ -71,14 +71,6 @@ def main(MODE):
         turbomole_footer()
     print_cmd("CleanExit")
 
-def get_mode():
-    switch (idx) {
-            case 0: return "DEFAULT";
-            case 1: return "TURBOMOLE";
-            case 2: return "MOLPRO";
-            case 3: return "ORCA";
-            }
-
 if __name__=="__main__":
     MODE = Mode(["get_submit", "get_turbofile", "get_molprofile", "get_orcafile"].index(sys.argv[0]+1))
     main(MODE)
