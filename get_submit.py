@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 import sys
 from enum import Enum
 
@@ -72,5 +73,6 @@ def main(MODE):
     print_cmd("CleanExit")
 
 if __name__=="__main__":
-    MODE = Mode(["get_submit", "get_turbofile", "get_molprofile", "get_orcafile"].index(sys.argv[0])+1)
+    call_name = os.path.basename(sys.argv[0])
+    MODE = Mode(["get_submit", "get_turbofile", "get_molprofile", "get_orcafile"].index(call_name)+1)
     main(MODE)
