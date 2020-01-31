@@ -30,6 +30,7 @@ def get_default_custom():
 
 def turbomole_header():
     print_cmd("export OMP_NUM_THREADS=$(( ${SLURM_CPUS_PER_TASK} ))")
+    print_cmd("export PARNODES=$(( ${SLURM_CPUS_PER_TASK} ))")
     print_cmd("export PARA_ARCH=SMP")
     print_cmd("module unload turbomole")
     print_cmd("module   load turbomole_smp")
@@ -39,6 +40,8 @@ def turbomole_footer():
 
 def main(MODE):
 #    get_default()
+    print_cmd("#!/bin/sh")
+    print_cmd("#")
     print_option("--job-name"     , JOB_NAME)
     print_option("--cpus-per-task", CPUS_PER_TASK)
     print_cmd("#***************************")
