@@ -1,3 +1,13 @@
+import sys
+from enum import Enum
+
+class Mode(Enum):
+    DEFAULT = 1
+    TURBOMOLE = 2
+    MOLPRO = 3
+    ORCA = 4
+    UNKNOWN = 99
+
 JOB_NAME      = "default_name"
 CPUS_PER_TASK = "2"
 NTASK         = "1"
@@ -22,7 +32,7 @@ def turbomole_header():
 def turbomole_footer():
     return
 
-def main():
+def main(MODE):
 #    get_default()
     print_option("--job-name"     , JOB_NAME)
     print_option("--cpus-per-task", CPUS_PER_TASK)
@@ -43,6 +53,10 @@ def main():
     print_cmd("echo \"I am in           : ${PWD}\"")
     print_cmd("echo \"  CORES           : ${SLURM_CPUS_PER_TASK}\"")
     print_cmd("")
+#
+    if (MODE == Mode.TURBOMOLE):
+        turbomole_header()
+#
     print_cmd("#synchronize the working directory and the scratch")
     print_cmd("CleanStart")
     print_cmd("cd ${TMPDIR}")
@@ -51,6 +65,18 @@ def main():
     print_cmd(COMMAND)
     print_cmd("###END_COMMANDS")
     print_cmd("")
+    if (MODE == Mode.TURBOMOLE):
+        turbomole_footer()
     print_cmd("CleanExit")
 
-main()
+def get_mode():
+    switch (idx) {
+            case 0: return "DEFAULT";
+            case 1: return "TURBOMOLE";
+            case 2: return "MOLPRO";
+            case 3: return "ORCA";
+            }
+
+if __name__=="__main__":
+    MODE = Mode(["get_submit", "get_turbofile", "get_molprofile", "get_orcafile"].index(sys.argv[0]+1))
+    main(MODE)
