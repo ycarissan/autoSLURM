@@ -13,7 +13,7 @@ class Mode(Enum):
 
 JOB_NAME      = "default_name"
 CPUS_PER_TASK = "2"
-NTASK         = "1"
+NTASKS        = "1"
 NODES         = "1"
 COMMAND       = "sleep 10"
 
@@ -47,7 +47,7 @@ def main(MODE):
     print_cmd("#***************************")
     print_cmd("#DO NOT MODIFY THESE OPTIONS")
     print_option("--nodes"        , NODES)
-    print_option("--ntask"        , NTASK)
+    print_option("--ntasks"       , NTASKS)
     print_cmd("#***************************")
     print_cmd("")
     print_cmd(". /share/programs/bin/functions_jobs.sh")
