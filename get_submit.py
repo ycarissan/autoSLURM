@@ -17,11 +17,13 @@ NTASK         = "1"
 NODES         = "1"
 COMMAND       = "sleep 10"
 
+fout = open("submit.job","w+")
+
 def print_cmd(cmd):
-    print("{0}".format(cmd))
+    fout.write("{0}".format(cmd))
 
 def print_option(lbl, value):
-    print("#SBATCH {0}={1}".format(lbl,value))
+    fout.write("#SBATCH {0}={1}".format(lbl,value))
 
 def get_default_custom():
     subprocess.run(['sh','$HOME/.submit_default'], stdout=subprocess.PIPE).stdout.decode('utf-8')
