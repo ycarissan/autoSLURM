@@ -31,6 +31,9 @@ def print_option(lbl, value):
 def get_default_custom():
     subprocess.run(['sh','$HOME/.submit_default'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
+###
+#TURBOMOLE SPECIFIC ROUTINES
+###
 def turbomole_header():
     print_cmd("export OMP_NUM_THREADS=$(( ${SLURM_CPUS_PER_TASK} ))")
     print_cmd("export PARNODES=$(( ${SLURM_CPUS_PER_TASK} ))")
@@ -39,6 +42,37 @@ def turbomole_header():
     print_cmd("module   load turbomole_smp")
 
 def turbomole_footer():
+    default_footer()
+    return
+
+def turbomole_cmd():
+    print_cmd('ridft > ridft.log')
+    return
+
+###
+#MOLPRO SPECIFIC ROUTINES
+###
+def molpro_header():
+    print_cmd("module load molpro")
+
+def molpro_footer():
+    return
+
+def molpro_cmd():
+    print_cmd('molpro -n${SLURM_CPUS_PER_TASK} -d ${TMPDIR} -W ${PWD} molpro.in')
+    return
+
+###
+#DEFAULT ROUTINES
+###
+def default_header():
+    print_cmd("module load molpro")
+
+def default_footer():
+    return
+
+def default_cmd():
+    print_cmd('sleep 10')
     return
 
 def main(MODE):
@@ -68,18 +102,30 @@ def main(MODE):
 #
     if (MODE == Mode.TURBOMOLE):
         turbomole_header()
+    elif (MODE == Mode.MOLPRO):
+        molpro_header()
+    else:
+        default_header()
 #
     print_cmd("#synchronize the working directory and the scratch")
     print_cmd("CleanStart")
     print_cmd("cd ${TMPDIR}")
     print_cmd("")
     print_cmd("###BEGIN_COMMANDS")
-    print_cmd(COMMAND)
+    if (MODE == Mode.TURBOMOLE):
+        turbomole_cmd()
+    elif (MODE == Mode.MOLPRO):
+        molpro_cmd()
+    else:
+        default_cmd()
     print_cmd("###END_COMMANDS")
     print_cmd("")
     if (MODE == Mode.TURBOMOLE):
         turbomole_footer()
-    print_cmd("CleanExit")
+    elif (MODE == Mode.MOLPRO):
+        molpro_footer()
+    else:
+        default_footer()
 
 if __name__=="__main__":
     call_name = os.path.basename(sys.argv[0])
