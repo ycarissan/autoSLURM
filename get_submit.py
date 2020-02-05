@@ -62,6 +62,21 @@ def molpro_cmd():
     return
 
 ###
+#ORCA SPECIFIC ROUTINES
+###
+def orca_header():
+    print_cmd("module load orca")
+    default_header()
+
+def orca_footer():
+    default_footer()
+    return
+
+def orca_cmd():
+    print_cmd('$ORCA/orca orca.inp > orca.out')
+    return
+
+###
 #DEFAULT ROUTINES
 ###
 def default_header():
@@ -78,8 +93,7 @@ def default_cmd():
     print_cmd('sleep 10')
     return
 
-def main(MODE):
-#    get_default()
+def head():
     print_cmd("#!/bin/sh")
     print_cmd("#")
     print_option("--job-name"     , JOB_NAME)
@@ -102,11 +116,16 @@ def main(MODE):
     print_cmd("echo \"I am in           : ${PWD}\"")
     print_cmd("echo \"  CORES           : ${SLURM_CPUS_PER_TASK}\"")
     print_cmd("")
+
+def main(MODE):
+    head()
 #
     if (MODE == Mode.TURBOMOLE):
         turbomole_header()
     elif (MODE == Mode.MOLPRO):
         molpro_header()
+    elif (MODE == Mode.ORCA):
+        orca_header()
     else:
         default_header()
 #
@@ -115,6 +134,8 @@ def main(MODE):
         turbomole_cmd()
     elif (MODE == Mode.MOLPRO):
         molpro_cmd()
+    elif (MODE == Mode.ORCA):
+        orca_cmd()
     else:
         default_cmd()
     print_cmd("###END_COMMANDS")
@@ -123,6 +144,8 @@ def main(MODE):
         turbomole_footer()
     elif (MODE == Mode.MOLPRO):
         molpro_footer()
+    elif (MODE == Mode.ORCA):
+        orca_footer()
     else:
         default_footer()
 
