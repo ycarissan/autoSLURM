@@ -64,9 +64,13 @@ def molpro_cmd():
 #DEFAULT ROUTINES
 ###
 def default_header():
-    print_cmd("module load molpro")
+    print_cmd("#synchronize the working directory and the scratch")
+    print_cmd("CleanStart")
+    print_cmd("cd ${TMPDIR}")
+    print_cmd("")
 
 def default_footer():
+    print_cmd("CleanExit")
     return
 
 def default_cmd():
@@ -105,10 +109,6 @@ def main(MODE):
     else:
         default_header()
 #
-    print_cmd("#synchronize the working directory and the scratch")
-    print_cmd("CleanStart")
-    print_cmd("cd ${TMPDIR}")
-    print_cmd("")
     print_cmd("###BEGIN_COMMANDS")
     if (MODE == Mode.TURBOMOLE):
         turbomole_cmd()
