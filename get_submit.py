@@ -38,6 +38,7 @@ def turbomole_header():
     print_cmd("export PARA_ARCH=SMP")
     print_cmd("module unload turbomole")
     print_cmd("module   load turbomole_smp")
+    default_header()
 
 def turbomole_footer():
     default_footer()
