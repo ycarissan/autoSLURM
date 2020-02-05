@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-#version 11c17755832816ac53fb599a6286648d5cfe5c6b
-
 import os
 import sys
 from enum import Enum
