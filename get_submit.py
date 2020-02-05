@@ -4,7 +4,7 @@ import os
 import sys
 from enum import Enum
 
-TAG=""
+version="# version 1.0.0"
 
 class Mode(Enum):
     DEFAULT = 1
@@ -97,6 +97,7 @@ def default_cmd():
 
 def head():
     print_cmd("#!/bin/sh")
+    print_cmd(version)
     print_cmd("#")
     print_option("--job-name"     , JOB_NAME)
     print_option("--ntasks"       , NTASKS)
