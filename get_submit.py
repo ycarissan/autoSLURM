@@ -4,6 +4,8 @@ import os
 import sys
 from enum import Enum
 
+TAG=""
+
 class Mode(Enum):
     DEFAULT = 1
     TURBOMOLE = 2
@@ -12,8 +14,8 @@ class Mode(Enum):
     UNKNOWN = 99
 
 JOB_NAME      = "default_name"
-CPUS_PER_TASK = "2"
-NTASKS        = "1"
+NTASKS        = "2"
+CPUS_PER_TASK = "1"
 NODES         = "1"
 MEM           = "1000"
 COMMAND       = "sleep 10"
@@ -33,8 +35,8 @@ def get_default_custom():
 #TURBOMOLE SPECIFIC ROUTINES
 ###
 def turbomole_header():
-    print_cmd("export OMP_NUM_THREADS=$(( ${SLURM_CPUS_PER_TASK} ))")
-    print_cmd("export PARNODES=$(( ${SLURM_CPUS_PER_TASK} ))")
+    print_cmd("export OMP_NUM_THREADS=$(( ${NTASKS} ))")
+    print_cmd("export PARNODES=$(( ${NTASKS} ))")
     print_cmd("export PARA_ARCH=SMP")
     print_cmd("module unload turbomole")
     print_cmd("module   load turbomole_smp")
@@ -58,7 +60,7 @@ def molpro_footer():
     return
 
 def molpro_cmd():
-    print_cmd('molpro -n${SLURM_CPUS_PER_TASK} -d ${TMPDIR} -W ${PWD} molpro.in')
+    print_cmd('molpro -n${NTASKS} -d ${TMPDIR} -W ${PWD} molpro.in')
     return
 
 ###
@@ -97,12 +99,12 @@ def head():
     print_cmd("#!/bin/sh")
     print_cmd("#")
     print_option("--job-name"     , JOB_NAME)
-    print_option("--cpus-per-task", CPUS_PER_TASK)
+    print_option("--ntasks"       , NTASKS)
     print_option("--mem", MEM)
     print_cmd("#***************************")
     print_cmd("#DO NOT MODIFY THESE OPTIONS")
     print_option("--nodes"        , NODES)
-    print_option("--ntasks"       , NTASKS)
+    print_option("--cpus-per-task", CPUS_PER_TASK)
     print_cmd("#***************************")
     print_cmd("")
     print_cmd(". /share/programs/bin/functions_jobs.sh")
@@ -114,7 +116,7 @@ def head():
     print_cmd("echo \"WorkDir           : ${SLURM_SUBMIT_DIR}\"")
     print_cmd("echo \"TMPDIR            : ${TMPDIR}\"")
     print_cmd("echo \"I am in           : ${PWD}\"")
-    print_cmd("echo \"  CORES           : ${SLURM_CPUS_PER_TASK}\"")
+    print_cmd("echo \"  NTASKS          : ${NTASKS}\"")
     print_cmd("")
 
 def main(MODE):
