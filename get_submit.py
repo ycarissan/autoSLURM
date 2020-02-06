@@ -60,8 +60,7 @@ def molpro_footer():
     return
 
 def molpro_cmd():
-    print_cmd('molpro -n${SLURM_NTASKS} -d ${TMPDIR} -W ${PWD}
-              -h${SLURM_JOB_NODELIST} molpro.in')
+    print_cmd('molpro -n${SLURM_NTASKS} -d ${TMPDIR} -W ${PWD} -h${SLURM_JOB_NODELIST} molpro.in')
     return
 
 ###
