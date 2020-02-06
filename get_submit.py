@@ -4,7 +4,7 @@ import os
 import sys
 from enum import Enum
 
-version="# version 1.0.1"
+version="# version 1.0.2"
 
 class Mode(Enum):
     DEFAULT = 1
@@ -60,7 +60,8 @@ def molpro_footer():
     return
 
 def molpro_cmd():
-    print_cmd('molpro -n${SLURM_NTASKS} -d ${TMPDIR} -W ${PWD} molpro.in')
+    print_cmd('molpro -n${SLURM_NTASKS} -d ${TMPDIR} -W ${PWD}
+              -h${SLURM_JOB_NODELIST} molpro.in')
     return
 
 ###
@@ -114,6 +115,7 @@ def head():
     print_cmd("echo \"Job Name          : ${SLURM_JOB_NAME}\"")
     print_cmd("echo \"Account           : ${SLURM_JOB_ACCOUNT}\"")
     print_cmd("echo \"Submitted  from   : ${SLURM_SUBMIT_HOST}\"")
+    print_cmd("echo \"Nodelist          : ${SLURM_JOB_NODELIST}\"")
     print_cmd("echo \"WorkDir           : ${SLURM_SUBMIT_DIR}\"")
     print_cmd("echo \"TMPDIR            : ${TMPDIR}\"")
     print_cmd("echo \"I am in           : ${PWD}\"")
