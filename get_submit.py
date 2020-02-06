@@ -35,8 +35,8 @@ def get_default_custom():
 #TURBOMOLE SPECIFIC ROUTINES
 ###
 def turbomole_header():
-    print_cmd("export OMP_NUM_THREADS=$(( ${NTASKS} ))")
-    print_cmd("export PARNODES=$(( ${NTASKS} ))")
+    print_cmd("export OMP_NUM_THREADS=$(( ${SLURM_NTASKS} ))")
+    print_cmd("export PARNODES=$(( ${SLURM_NTASKS} ))")
     print_cmd("export PARA_ARCH=SMP")
     print_cmd("module unload turbomole")
     print_cmd("module   load turbomole_smp")
@@ -60,7 +60,7 @@ def molpro_footer():
     return
 
 def molpro_cmd():
-    print_cmd('molpro -n${NTASKS} -d ${TMPDIR} -W ${PWD} molpro.in')
+    print_cmd('molpro -n${SLURM_NTASKS} -d ${TMPDIR} -W ${PWD} molpro.in')
     return
 
 ###
@@ -117,7 +117,7 @@ def head():
     print_cmd("echo \"WorkDir           : ${SLURM_SUBMIT_DIR}\"")
     print_cmd("echo \"TMPDIR            : ${TMPDIR}\"")
     print_cmd("echo \"I am in           : ${PWD}\"")
-    print_cmd("echo \"  NTASKS          : ${NTASKS}\"")
+    print_cmd("echo \"  NTASKS          : ${SLURM_NTASKS}\"")
     print_cmd("")
 
 def main(MODE):
