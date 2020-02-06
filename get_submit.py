@@ -4,7 +4,7 @@ import os
 import sys
 from enum import Enum
 
-version="# version 1.0.0"
+version="# version 1.0.1"
 
 class Mode(Enum):
     DEFAULT = 1
